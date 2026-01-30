@@ -7,14 +7,11 @@ export class UserRepo implements UserRepositoryPort {
 		const res = await pool.query(
 			`
 			SELECT
-				k_id AS id,
+				id,
 				name,
-				lastname,
-				email,
-				phone,
-				birthdate
-			FROM user_account
-			WHERE k_id = $1
+				password
+			FROM users
+			WHERE id = $1
 			`,
 			[id]
 		);
@@ -25,13 +22,13 @@ export class UserRepo implements UserRepositoryPort {
   	async save(user: Omit<User, 'id'>): Promise<User> {
 		const res = await pool.query(
 			`
-			INSERT INTO user_account (
+			INSERT INTO users (
 				name,
 				password
 			)
 			VALUES ($1, $2)
 			RETURNING
-				k_id AS id,
+				id,
 				name
 			`,
 			[
