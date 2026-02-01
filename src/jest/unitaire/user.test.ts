@@ -41,7 +41,7 @@ describe('UserService', () => {
     });
 
     describe('saveUser', () => {
-        it('save a user', async () => {
+        it('create a user', async () => {
             const user: User = {
                 id: 1,
                 name: 'Bob',
@@ -60,7 +60,7 @@ describe('UserService', () => {
             expect(repo.findByName).toHaveBeenCalledWith(user.name);
         });
 
-        it('save a user', async () => {
+        it('create an existing user', async () => {
             const user: User = {
                 id: 1,
                 name: 'Bob',
