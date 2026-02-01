@@ -21,7 +21,19 @@ export class UserController {
 	}
 
 	async createUser(req: Request, res: Response) {
-		const user = await this.service_user.createUser(req.body);
-		res.json(user);
+		try {
+			const user = await this.service_user.createUser(req.body);
+			return res.status(201).json(user);
+		} catch (error: any) {
+			if (error.message === 'Username already exists') {
+				return res.status(409).json({ message: error.message });
+			}
+
+			if (error.message.startsWith('Password')) {
+				return res.status(400).json({ message: error.message });
+			}
+
+			return res.status(500).json({ message: 'Internal server error' });
+		}
 	}
 }
